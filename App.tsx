@@ -1,118 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+export default function App() {
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const [bgColor, setBgColor] = useState('');
+  useEffect(() => {
+    changeBgColor()
+  }, [])
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const changeBgColor = () => {
+    const codes = "0123456789abcdef";
+    var colorCode = "#"
+    for (var i = 0; i < 6; i++) {
+      colorCode += codes.charAt(Math.floor(Math.random() * 16))
+    }
+    setBgColor(colorCode);
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView>
+
+      <View style={{backgroundColor: bgColor , height: '100%' , justifyContent:'center' , gap: 100 , flexDirection: 'column-reverse'}}>
+        <TouchableOpacity
+          onPress={changeBgColor}
+        >
+          <View style={styles.btnContainer}>
+            <Text style={styles.btnText}>Change bgColor</Text>
+          </View>
+
+        </TouchableOpacity>
+        
+          <View style={styles.card}>
+            <Text style={styles.description}>Long Press to Copy Color Code </Text>
+            <Text selectable style={styles.colorCode}>{bgColor}</Text>
+          </View>
+        
+      </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  btnContainer: {
+    backgroundColor: '#9fa8da',
+    width: '40%',
+    padding: 10,
+    marginVertical: 10,
+    alignSelf: 'center',
+    borderRadius: 10,
+    shadowColor: 'pink',
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowRadius: 8
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
+  btnText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontSize: 18,
-    fontWeight: '400',
+    color: '#303f9f'
   },
-  highlight: {
-    fontWeight: '700',
+  card: {
+    width: '75%',
+    backgroundColor: '#e1bee7',
+    padding: 20,
+    alignSelf: 'center',
+    borderRadius: 10,
+    shadowColor: 'pink',
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8
   },
-});
-
-export default App;
+  description: {
+    color: '#9c27b0',
+    fontSize: 18
+  },
+  colorCode: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#7b1fa2'
+  } 
+})
